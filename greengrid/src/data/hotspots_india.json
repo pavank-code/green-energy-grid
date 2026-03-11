@@ -1,0 +1,33 @@
+{
+  "solar": [
+    { "lat": 27.5385, "lon": 71.9168, "name": "Bhadla Solar Park, Rajasthan", "reason": "GHI ~5.8 kWh/m²/day, barren desert land at ₹1-3 Lakh/acre", "ghi": 5.8, "landCostLakhPerAcre": 2 },
+    { "lat": 24.4841, "lon": 81.5414, "name": "Rewa Ultra Mega Solar, MP", "reason": "GHI ~5.4, proven 750MW capacity, excellent grid connectivity", "ghi": 5.4, "landCostLakhPerAcre": 5 },
+    { "lat": 15.6860, "lon": 78.1060, "name": "Kurnool Ultra Mega Solar, AP", "reason": "GHI ~5.6, 1000MW operational, designated RE zone", "ghi": 5.6, "landCostLakhPerAcre": 4 },
+    { "lat": 23.2200, "lon": 72.6500, "name": "Charanka Solar Park, Gujarat", "reason": "GHI ~5.5, 590MW operational, govt-allocated wasteland", "ghi": 5.5, "landCostLakhPerAcre": 3 },
+    { "lat": 26.9124, "lon": 70.9100, "name": "Tanot Solar, Jaisalmer", "reason": "GHI ~5.9, desert terrain, minimal habitation", "ghi": 5.9, "landCostLakhPerAcre": 1.5 },
+    { "lat": 11.9300, "lon": 78.3200, "name": "Kamuthi Solar Park, TN", "reason": "GHI ~5.3, 648MW operational, established infrastructure", "ghi": 5.3, "landCostLakhPerAcre": 6 },
+    { "lat": 16.3100, "lon": 76.8300, "name": "Pavagada Solar Park, Karnataka", "reason": "GHI ~5.5, 2050MW capacity, Asia's 2nd largest", "ghi": 5.5, "landCostLakhPerAcre": 3.5 },
+    { "lat": 22.0574, "lon": 71.7925, "name": "Dholera Solar Zone, Gujarat", "reason": "GHI ~5.4, Smart City SIR, excellent road/grid access", "ghi": 5.4, "landCostLakhPerAcre": 4 },
+    { "lat": 27.1800, "lon": 71.3800, "name": "Pokhran Solar Zone, Rajasthan", "reason": "GHI ~5.7, flat desert terrain, military-grade security", "ghi": 5.7, "landCostLakhPerAcre": 1.8 },
+    { "lat": 25.3100, "lon": 75.8700, "name": "Baran Solar Zone, Rajasthan", "reason": "GHI ~5.3, affordable agricultural land with RE incentives", "ghi": 5.3, "landCostLakhPerAcre": 3 }
+  ],
+  "wind": [
+    { "lat": 8.2588, "lon": 77.5450, "name": "Muppandal Wind Farm, TN", "reason": "Wind 7-9 m/s, India's largest wind cluster, 1500MW installed", "windSpeed": 8.5, "landCostLakhPerAcre": 5 },
+    { "lat": 23.7337, "lon": 69.8597, "name": "Kutch Wind Corridor, Gujarat", "reason": "Wind 7-8 m/s, coastal acceleration, govt wasteland", "windSpeed": 7.5, "landCostLakhPerAcre": 2 },
+    { "lat": 21.5200, "lon": 69.7800, "name": "Porbandar Wind Zone, Gujarat", "reason": "Wind 6-8 m/s, coastal zone, 500MW+ installed", "windSpeed": 7.0, "landCostLakhPerAcre": 3 },
+    { "lat": 17.6800, "lon": 75.3200, "name": "Sangli-Satara Corridor, MH", "reason": "Wind 6-7 m/s, Western Ghats channeling, affordable land", "windSpeed": 6.5, "landCostLakhPerAcre": 4 },
+    { "lat": 11.2200, "lon": 76.7400, "name": "Coimbatore Wind Zone, TN", "reason": "Wind 6-8 m/s, Palghat Gap acceleration, strong grid", "windSpeed": 7.0, "landCostLakhPerAcre": 6 },
+    { "lat": 26.2700, "lon": 73.0100, "name": "Jaisalmer Wind Park, Rajasthan", "reason": "Wind 6-7 m/s, 1064MW operational, desert terrain", "windSpeed": 6.5, "landCostLakhPerAcre": 2 },
+    { "lat": 15.3500, "lon": 73.9100, "name": "Davangere-Chitradurga, KA", "reason": "Wind 6-7 m/s, plateau terrain, growing RE infrastructure", "windSpeed": 6.5, "landCostLakhPerAcre": 3.5 },
+    { "lat": 9.9300, "lon": 78.1200, "name": "Tirunelveli Wind Zone, TN", "reason": "Wind 7-9 m/s, consistent monsoon winds, proven corridor", "windSpeed": 8.0, "landCostLakhPerAcre": 5.5 },
+    { "lat": 22.3000, "lon": 68.9700, "name": "Dwarka Wind Zone, Gujarat", "reason": "Wind 7-8 m/s, offshore potential, coastal acceleration", "windSpeed": 7.5, "landCostLakhPerAcre": 2.5 },
+    { "lat": 16.7000, "lon": 74.2400, "name": "Kolhapur Wind Corridor, MH", "reason": "Wind 6-7 m/s, Western Ghats, moderate land cost", "windSpeed": 6.5, "landCostLakhPerAcre": 4.5 }
+  ],
+  "hybrid": [
+    { "lat": 23.7337, "lon": 69.8597, "name": "Kutch Hybrid Zone, Gujarat", "reason": "GHI 5.4 + Wind 7.5 m/s, govt wasteland, ideal for hybrid", "ghi": 5.4, "windSpeed": 7.5, "landCostLakhPerAcre": 2 },
+    { "lat": 26.9124, "lon": 70.9100, "name": "Jaisalmer Hybrid Zone, Rajasthan", "reason": "GHI 5.9 + Wind 6.5 m/s, vast desert, complementary profiles", "ghi": 5.9, "windSpeed": 6.5, "landCostLakhPerAcre": 1.5 },
+    { "lat": 15.3500, "lon": 76.5000, "name": "Anantapur Hybrid Zone, AP", "reason": "GHI 5.5 + Wind 6 m/s, designated RE zone, low land cost", "ghi": 5.5, "windSpeed": 6.0, "landCostLakhPerAcre": 3 },
+    { "lat": 22.0574, "lon": 71.7925, "name": "Dholera SIR Hybrid, Gujarat", "reason": "GHI 5.4 + Wind 6.5 m/s, smart city infrastructure", "ghi": 5.4, "windSpeed": 6.5, "landCostLakhPerAcre": 4 },
+    { "lat": 11.5000, "lon": 77.5000, "name": "Tirupur-Salem Hybrid, TN", "reason": "GHI 5.3 + Wind 6.5 m/s, industrial demand, grid capacity", "ghi": 5.3, "windSpeed": 6.5, "landCostLakhPerAcre": 5 }
+  ]
+}
