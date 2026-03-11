@@ -8,6 +8,9 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 
+// ─── Hardcoded Gemini API Key ──────────────────────────────
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCsfhA4ZgAwzXSExcETq1XTcMQsmlUZxWY';
+
 import { fetchNASAPower } from "./src/services/nasaPower.js";
 import { fetchElevation } from "./src/services/elevation.js";
 import { fetchNearestSubstationDistance } from "./src/services/gridDistance.js";
@@ -20,8 +23,8 @@ const __dirname = path.dirname(__filename);
 
 let ai: GoogleGenAI | null = null;
 function getAI() {
-  if (!ai && process.env.GEMINI_API_KEY) {
-    ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  if (!ai) {
+    ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
   }
   return ai;
 }
@@ -437,7 +440,7 @@ async function startServer() {
   app.use(express.json());
 
   app.get("/api/health", (_req, res) => {
-    res.json({ status: "ok", gemini: !!process.env.GEMINI_API_KEY });
+    res.json({ status: "ok", gemini: true });
   });
 
   // Load hotspots data
@@ -671,8 +674,23 @@ Return JSON ONLY: {"listings":[{"title":"5 Acre Agricultural Land near X","price
         fetchNearbySubstations(lat, lon)
       ]);
 
+      // Validate NASA data — replace -999 sentinel values with India-average fallbacks
+      const validateNasa = (raw: any) => {
+        if (!raw) return null;
+        const valid = (v: number, fallback: number) => (v && v !== -999 && v > 0 && isFinite(v)) ? v : fallback;
+        return {
+          ...raw,
+          ghi: valid(raw.ghi, 5.0),
+          windSpeed50m: valid(raw.windSpeed50m, 4.5),
+          windSpeed10m: valid(raw.windSpeed10m, 3.2),
+          tempAvg: (raw.tempAvg && raw.tempAvg !== -999 && isFinite(raw.tempAvg)) ? raw.tempAvg : 28,
+          tempMax: (raw.tempMax && raw.tempMax !== -999 && isFinite(raw.tempMax)) ? raw.tempMax : 38,
+          precipitation: valid(raw.precipitation, 800),
+        };
+      };
+
       // Use real data or India-average fallback if NASA API failed
-      const effectiveNasaData = nasaData || {
+      const effectiveNasaData = validateNasa(nasaData) || {
         ghi: 5.0, windSpeed50m: 4.5, windSpeed10m: 3.2,
         tempAvg: 28, tempMax: 38, precipitation: 800,
         ghiMonthly: {}, windMonthly: {}, precipMonthly: {},
@@ -777,7 +795,7 @@ Return JSON ONLY: {"listings":[{"title":"5 Acre Agricultural Land near X","price
       // Gemini expert insight
       let expert_insight = `Based on real-time NASA telemetry, this site offers a ${scores.compositeScore}/100 viability score for ${energyType} generation, with an estimated IRR of ${financials.irr_percent}%.`;
 
-      if (process.env.GEMINI_API_KEY) {
+      if (getAI()) {
         try {
           const prompt = `
 You are GreenGrid AI, a renewable energy investment intelligence agent.
@@ -893,7 +911,7 @@ Provide a JSON response:
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`✅ GreenGrid Server running on http://localhost:${PORT}`);
-    console.log(`🔑 Gemini API Key: ${process.env.GEMINI_API_KEY ? 'LOADED' : '⚠️  MISSING — add to .env file'}`);
+    console.log(`🔑 Gemini API Key: LOADED (hardcoded)`);
   });
 }
 

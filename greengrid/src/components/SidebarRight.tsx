@@ -91,6 +91,12 @@ export default function SidebarRight({ result, selectedLocation, onReanalyze, is
     }
   };
 
+  // Use listings from auto-scrape during analysis, or from manual scrape button
+  const autoListings = (!scrapedData && data.listings_scraped && data.listings_scraped.length > 0)
+    ? { properties: data.listings_scraped, city: location_details?.district || 'nearby area', count: data.listings_scraped.length, isAuto: true }
+    : null;
+  const listingSource = scrapedData || autoListings;
+
   // Revenue chart: always generate meaningful data
   const annualRev = parseFloat(financials.annual_revenue_cr || '0');
   const chartData = data.revenue_projection && data.revenue_projection.length > 0
@@ -248,7 +254,7 @@ export default function SidebarRight({ result, selectedLocation, onReanalyze, is
                 className="text-[#00FF41] hover:text-white transition-colors flex items-center gap-1 text-[10px] uppercase border border-[#00FF41]/30 px-2 py-1 rounded disabled:opacity-50"
               >
                 {isScraping ? <RefreshCw className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />}
-                {isScraping ? 'Scraping...' : 'Live 99Acres Data'}
+                {isScraping ? 'Fetching...' : listingSource ? 'Refresh Rates' : 'Fetch Land Rates'}
               </button>
             </div>
 
@@ -258,14 +264,14 @@ export default function SidebarRight({ result, selectedLocation, onReanalyze, is
               </div>
             )}
 
-            {scrapedData && scrapedData.properties && scrapedData.properties.length > 0 && (
+            {listingSource && listingSource.properties && listingSource.properties.length > 0 && (
               <div className="bg-[#00FF41]/5 border border-[#00FF41]/20 p-2 rounded mb-2 max-h-64 overflow-y-auto custom-scrollbar">
                 <div className="text-[#00FF41] text-[10px] mb-2 font-bold flex justify-between">
-                  <span>LIVE LISTINGS ({scrapedData.city})</span>
-                  <span>{scrapedData.count} found</span>
+                  <span>{listingSource.isAuto ? '📊 SCRAPED DURING ANALYSIS' : 'LIVE LISTINGS'} ({listingSource.city})</span>
+                  <span>{listingSource.count} found</span>
                 </div>
                 <div className="space-y-2">
-                  {scrapedData.properties.slice(0, 3).map((prop: any, idx: number) => (
+                  {listingSource.properties.slice(0, 3).map((prop: any, idx: number) => (
                     <a key={idx} href={prop.url} target="_blank" rel="noreferrer" className="block border border-[#1A1A1A] bg-black/40 rounded p-2 hover:border-[#00FF41]/40 transition-colors">
                       <div className="flex gap-2">
                         {prop.image && prop.image !== 'https://via.placeholder.com/150?text=No+Image' ? (
@@ -291,9 +297,9 @@ export default function SidebarRight({ result, selectedLocation, onReanalyze, is
               </div>
             )}
 
-            {scrapedData && scrapedData.properties && scrapedData.properties.length === 0 && (
+            {listingSource && listingSource.properties && listingSource.properties.length === 0 && (
               <div className="bg-yellow-900/20 border border-yellow-500/30 text-yellow-400 p-2 rounded mb-2 text-[10px]">
-                No listings found for {scrapedData.city}.
+                No listings found for {listingSource.city}.
               </div>
             )}
 
@@ -302,16 +308,30 @@ export default function SidebarRight({ result, selectedLocation, onReanalyze, is
                 <span className="text-gray-400">Estimated Rate</span>
                 <span className="text-white font-bold">₹{land_rate_info.price_per_acre} Lakh/Acre</span>
               </div>
+              {land_rate_info.source && (
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-500 text-[9px]">Source</span>
+                  <span className="text-gray-400 text-[9px] text-right max-w-[60%] truncate" title={land_rate_info.source}>{land_rate_info.source}</span>
+                </div>
+              )}
               <div className="flex justify-between items-center">
                 <span className="text-gray-400">Required Area</span>
                 <span className="text-white">{equipment.land_acres} Acres</span>
               </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400">Budget for Equipment</span>
+                <span className="text-[#00BFFF] font-bold">
+                  ₹{financials.equipment_cost_cr || '--'} Cr
+                </span>
+              </div>
               <div className="flex justify-between items-center border-t border-[#1A1A1A] pt-2">
                 <span className="text-gray-400">Total Land Cost</span>
                 <span className="text-[#00FF41] font-bold">
-                  ₹{equipment.land_acres !== '--' && land_rate_info.price_per_acre !== '--'
-                    ? ((parseFloat(equipment.land_acres) * parseFloat(land_rate_info.price_per_acre)) / 100).toFixed(2)
-                    : '--'} Cr
+                  ₹{financials.land_cost_cr && financials.land_cost_cr !== '--'
+                    ? financials.land_cost_cr
+                    : (equipment.land_acres !== '--' && land_rate_info.price_per_acre !== '--'
+                      ? ((parseFloat(equipment.land_acres) * parseFloat(land_rate_info.price_per_acre)) / 100).toFixed(2)
+                      : '--')} Cr
                 </span>
               </div>
             </div>
