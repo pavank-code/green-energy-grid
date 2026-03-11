@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 
 // ─── Hardcoded Gemini API Key ──────────────────────────────
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyCsfhA4ZgAwzXSExcETq1XTcMQsmlUZxWY';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
 import { fetchNASAPower } from "./src/services/nasaPower.js";
 import { fetchElevation } from "./src/services/elevation.js";
@@ -911,7 +911,7 @@ Provide a JSON response:
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`✅ GreenGrid Server running on http://localhost:${PORT}`);
-    console.log(`🔑 Gemini API Key: LOADED (hardcoded)`);
+    console.log(`🔑 Gemini API Key: LOADED`);
   });
 }
 

@@ -1,9 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
-const HARDCODED_KEY = 'AIzaSyCsfhA4ZgAwzXSExcETq1XTcMQsmlUZxWY';
-
 export async function getLandRateViaGemini(lat: number, lon: number, locationName: string, scrapedListings: any[]) {
-  const GEMINI_API_KEY = process.env.GEMINI_API_KEY || HARDCODED_KEY;
+  const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
   // Prepare the scraped data as context for Gemini
